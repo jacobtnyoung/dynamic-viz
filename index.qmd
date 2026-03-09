@@ -61,9 +61,9 @@ Take a look at each plot. What is the visualization showing you?
 Let's take a look at a different way of using a visualization to convey this point. Take a look at this [visualization of sampling ditributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"}.
 
 
-OTHER EXAMPLES HERE
-https://jacobtnyoung.shinyapps.io/example-dashboard/
-https://jacobtnyoung.shinyapps.io/probation-pilot-app/
+## Other examples...
+
+[network data collection tool(https://jacobtnyoung.shinyapps.io/probation-pilot-app/){target="_blank" rel="noopener"}
 Network disruption app
 
 
