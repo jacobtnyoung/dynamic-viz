@@ -1,6 +1,12 @@
 ---
 title: "Dynamic Visualization using Shiny"
-format: html
+
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-location: left
+    toc-depth: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -18,11 +24,11 @@ library( ggplot2 )
 
 ```
 
-# Motivating question: Why do we want large sample sizes?
+Motivating question: In statistics, you learned that when we sample, we want large sample sizes. *Why?*
 
-In statistics, you should have learned that when we sample, we want large sample sizes. *Why?*
+If we drew $k = 2000$ random samples of size $n = 2$, $n = 10$, and $n = 50$, respectively, we would get three sampling distributions. We could then visualize each sampling distribution with a plot:
 
-```{r gplot-example-setup}
+```{r gplot-example}
 
 set.seed( 2026 )
 sigma <- 1
@@ -37,39 +43,38 @@ df <- do.call(
     ) 
   )
 
-```
-
-We can visualize this with a series of plots:
-
-```{r gplot-example}
-
 ggplot( 
   df, 
   aes( x = sample_mean, fill = n ) ) +
   geom_histogram( bins = 30, alpha = 0.6, position = "identity" ) +
   facet_wrap( ~ n, nrow = 1 ) +
   labs( 
-    title = "Sampling distribution of the sample mean", 
+    title = "", 
     x = "Sample mean", y = "" ) +
   theme_minimal() +
   theme( legend.position = "none" )
 
 ```
 
-Take a look at each plot. What is the visualization showing you?
+Take a look at each plot. What is the visualization showing you? By displaying this information visually, what do you learn?
 
-Let's take a look at a different way of using a visualization to convey this point. Take a look at this [visualization of sampling ditributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"}.
+Now, take a look at a different way of using a visualization to convey this point: [visualization of sampling ditributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"}.
 
-
-## Other examples...
-
-[network data collection tool(https://jacobtnyoung.shinyapps.io/probation-pilot-app/){target="_blank" rel="noopener"}
-Network disruption app
-
+<br>
 
 ## Static vs. Dynamic Visualization
 
 The visualizations above are examples of static and dynamic visualizations, respectively. What makes the latter visualization *dynamic* is that the user can alter the inputs to change what the visualization shows. It is not simply fixed by the author/developer/etc, it is interactive: the **user** is able to alter what is *rendered*.
+
+## Other examples...
+
+What if you were interested in identifying an optimal strategy for network disruption? (check out this [network disruption app](https://jacobtnyoung.shinyapps.io/network-disruption/){target="_blank" rel="noopener"}).
+
+Or, if you wanted to collection some data? (check out this [network data collection tool](https://jacobtnyoung.shinyapps.io/probation-pilot-app/){target="_blank" rel="noopener"}).
+
+These are all built using [Shiny](https://shiny.posit.co/){target="_blank" rel="noopener"}.
+
+<br>
 
 # What is Shiny and How it Works
 
@@ -230,6 +235,14 @@ shinyApp(ui = ui, server = server)
 
 Here, we are just running the `shinyApp()` function and defining the arguments that function needs to operate: the UI and the server.
 
+#### Functions
+
+As you can see, there are a number of functions that we use to build the app. You can browse the functions that are build in `shiny` by typing `help( package = "shiny" )`. There are also many extensions that have been written: 
+
+  - [shinyWidgets](https://dreamrs.github.io/shinyWidgets/){target="_blank" rel="noopener"}
+  - [awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions){target="_blank" rel="noopener"}
+
+<br>
 
 # Using AI to Build Shiny Apps
 
@@ -241,10 +254,10 @@ Here, we are just running the `shinyApp()` function and defining the arguments t
 
 Here are some really good FREE books:
 
-  - [Mastering Shiny](https://mastering-shiny.org/index.html) is the first stop for moving forward with learning how to use Shiny.
+  - [Mastering Shiny](https://mastering-shiny.org/index.html){target="_blank" rel="noopener"} is the first stop for moving forward with learning how to use Shiny.
   
-  https://unleash-shiny.rinterface.com/
-  https://engineering-shiny.org/index.html
+  (https://unleash-shiny.rinterface.com/){target="_blank" rel="noopener"}
+  (https://engineering-shiny.org/index.html){target="_blank" rel="noopener"}
 
 
 

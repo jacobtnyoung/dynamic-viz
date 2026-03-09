@@ -69,15 +69,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-07856ccd07157181b6c57ddbe7d8c2c1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#static-vs.-dynamic-visualization" id="toc-static-vs.-dynamic-visualization" class="nav-link active" data-scroll-target="#static-vs.-dynamic-visualization">Static vs.&nbsp;Dynamic Visualization</a></li>
+  <li><a href="#other-examples" id="toc-other-examples" class="nav-link" data-scroll-target="#other-examples">Other examples…</a></li>
+  <li><a href="#what-is-shiny-and-how-it-works" id="toc-what-is-shiny-and-how-it-works" class="nav-link" data-scroll-target="#what-is-shiny-and-how-it-works">What is Shiny and How it Works</a>
+  <ul class="collapse">
+  <li><a href="#core-concepts" id="toc-core-concepts" class="nav-link" data-scroll-target="#core-concepts">Core Concepts</a></li>
+  <li><a href="#an-example" id="toc-an-example" class="nav-link" data-scroll-target="#an-example">An Example</a>
+  <ul class="collapse">
+  <li><a href="#static-visualization" id="toc-static-visualization" class="nav-link" data-scroll-target="#static-visualization">Static Visualization</a></li>
+  <li><a href="#dynamic-visualization" id="toc-dynamic-visualization" class="nav-link" data-scroll-target="#dynamic-visualization">Dynamic Visualization</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#using-ai-to-build-shiny-apps" id="toc-using-ai-to-build-shiny-apps" class="nav-link" data-scroll-target="#using-ai-to-build-shiny-apps">Using AI to Build Shiny Apps</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
+  <li><a href="#qa-and-extensions" id="toc-qa-and-extensions" class="nav-link" data-scroll-target="#qa-and-extensions">Q&amp;A and Extensions</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -99,10 +151,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="motivating-question-why-do-we-want-large-sample-sizes" class="level1">
-<h1>Motivating question: Why do we want large sample sizes?</h1>
-<p>In statistics, you should have learned that when we sample, we want large sample sizes. <em>Why?</em></p>
-<p>We can visualize this with a series of plots:</p>
+<p>Motivating question: In statistics, you learned that when we sample, we want large sample sizes. <em>Why?</em></p>
+<p>If we drew <span class="math inline">\(k = 2000\)</span> random samples of size <span class="math inline">\(n = 2\)</span>, <span class="math inline">\(n = 10\)</span>, and <span class="math inline">\(n = 50\)</span>, respectively, we would get three sampling distributions. We could then visualize each sampling distribution with a plot:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -112,13 +162,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Take a look at each plot. What is the visualization showing you?</p>
-<p>Let’s take a look at a different way of using a visualization to convey this point. Take a look at this <a href="https://jacobtnyoung.shinyapps.io/sampling-distributions/" target="_blank" rel="noopener">visualization of sampling ditributions</a>.</p>
-<p>OTHER EXAMPLES HERE https://jacobtnyoung.shinyapps.io/example-dashboard/ https://jacobtnyoung.shinyapps.io/probation-pilot-app/ Network disruption app</p>
+<p>Take a look at each plot. What is the visualization showing you? By displaying this information visually, what do you learn?</p>
+<p>Now, take a look at a different way of using a visualization to convey this point: <a href="https://jacobtnyoung.shinyapps.io/sampling-distributions/" target="_blank" rel="noopener">visualization of sampling ditributions</a>.</p>
+<p><br></p>
 <section id="static-vs.-dynamic-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="static-vs.-dynamic-visualization">Static vs.&nbsp;Dynamic Visualization</h2>
 <p>The visualizations above are examples of static and dynamic visualizations, respectively. What makes the latter visualization <em>dynamic</em> is that the user can alter the inputs to change what the visualization shows. It is not simply fixed by the author/developer/etc, it is interactive: the <strong>user</strong> is able to alter what is <em>rendered</em>.</p>
 </section>
+<section id="other-examples" class="level2">
+<h2 class="anchored" data-anchor-id="other-examples">Other examples…</h2>
+<p>What if you were interested in identifying an optimal strategy for network disruption? (check out this <a href="https://jacobtnyoung.shinyapps.io/network-disruption/" target="_blank" rel="noopener">network disruption app</a>).</p>
+<p>Or, if you wanted to collection some data? (check out this <a href="https://jacobtnyoung.shinyapps.io/probation-pilot-app/" target="_blank" rel="noopener">network data collection tool</a>)</p>
+<p><br></p>
 </section>
 <section id="what-is-shiny-and-how-it-works" class="level1">
 <h1>What is Shiny and How it Works</h1>
@@ -236,6 +291,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here, we are just running the <code>shinyApp()</code> function and defining the arguments that function needs to operate: the UI and the server.</p>
+<section id="functions" class="level4">
+<h4 class="anchored" data-anchor-id="functions">Functions</h4>
+<p>As you can see, there are a number of functions that we use to build the app. You can browse the functions that are build in <code>shiny</code> by typing <code>help( package = "shiny" )</code>. There are also many extensions that have been written:</p>
+<ul>
+<li><a href="https://dreamrs.github.io/shinyWidgets/" target="_blank" rel="noopener">shinyWidgets</a></li>
+<li><a href="https://github.com/nanxstats/awesome-shiny-extensions" target="_blank" rel="noopener">awesome-shiny-extensions</a></li>
+</ul>
+<p><br></p>
+</section>
 </section>
 </section>
 </section>
@@ -249,9 +313,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Q&amp;A and Extensions</h1>
 <p>Here are some really good FREE books:</p>
 <ul>
-<li><a href="https://mastering-shiny.org/index.html">Mastering Shiny</a> is the first stop for moving forward with learning how to use Shiny.</li>
+<li><a href="https://mastering-shiny.org/index.html" target="_blank" rel="noopener">Mastering Shiny</a> is the first stop for moving forward with learning how to use Shiny.</li>
 </ul>
-<p>https://unleash-shiny.rinterface.com/ https://engineering-shiny.org/index.html</p>
+<p>(https://unleash-shiny.rinterface.com/){target=“_blank” rel=“noopener”} (https://engineering-shiny.org/index.html){target=“_blank” rel=“noopener”}</p>
 </section>
 
 </main>
