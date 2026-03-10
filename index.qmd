@@ -7,6 +7,7 @@ format:
     toc: true
     toc-location: left
     toc-depth: 3
+    self-contained: true
 ---
 
 ```{r setup, include=FALSE}
