@@ -2357,8 +2357,15 @@ window.Quarto = {
   <li><a href="#dynamic-visualization" id="toc-dynamic-visualization" class="nav-link" data-scroll-target="#dynamic-visualization">Dynamic Visualization</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#using-ai-to-build-shiny-apps" id="toc-using-ai-to-build-shiny-apps" class="nav-link" data-scroll-target="#using-ai-to-build-shiny-apps">Using AI to Build Shiny Apps</a></li>
+  <li><a href="#using-ai-to-build-shiny-apps" id="toc-using-ai-to-build-shiny-apps" class="nav-link" data-scroll-target="#using-ai-to-build-shiny-apps">Using AI to Build Shiny Apps</a>
+  <ul class="collapse">
+  <li><a href="#bad-prompts-vs.-good-prompts" id="toc-bad-prompts-vs.-good-prompts" class="nav-link" data-scroll-target="#bad-prompts-vs.-good-prompts">Bad Prompts vs. Good Prompts</a>
+  <ul class="collapse">
+  <li><a href="#strong-prompt-structure" id="toc-strong-prompt-structure" class="nav-link" data-scroll-target="#strong-prompt-structure">Strong Prompt Structure</a></li>
+  </ul></li>
+  <li><a href="#debugging" id="toc-debugging" class="nav-link" data-scroll-target="#debugging">Debugging</a></li>
   <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
+  </ul></li>
   <li><a href="#qa-and-extensions" id="toc-qa-and-extensions" class="nav-link" data-scroll-target="#qa-and-extensions">Q&amp;A and Extensions</a></li>
   </ul>
 </nav>
@@ -2386,8 +2393,9 @@ window.Quarto = {
 </header>
 
 
+<p><br></p>
 <p>Motivating question: In statistics, you learned that when we sample, we want large sample sizes. <em>Why?</em></p>
-<p>If we drew <span class="math inline">\(k = 2000\)</span> random samples of size <span class="math inline">\(n = 2\)</span>, <span class="math inline">\(n = 10\)</span>, and <span class="math inline">\(n = 50\)</span>, respectively, we would get three sampling distributions. We could then visualize each sampling distribution with a plot:</p>
+<p>Let’s see this in practice. If we drew <span class="math inline">\(k = 2000\)</span> random samples of size <span class="math inline">\(n = 2\)</span>, <span class="math inline">\(n = 10\)</span>, and <span class="math inline">\(n = 50\)</span>, respectively, we would get three sampling distributions. We could then visualize each sampling distribution with a plot:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -2407,13 +2415,14 @@ window.Quarto = {
 <section id="other-examples" class="level2">
 <h2 class="anchored" data-anchor-id="other-examples">Other examples…</h2>
 <p>What if you were interested in identifying an optimal strategy for network disruption? (check out this <a href="https://jacobtnyoung.shinyapps.io/network-disruption/" target="_blank" rel="noopener">network disruption app</a>).</p>
-<p>Or, if you wanted to collection some data? (check out this <a href="https://jacobtnyoung.shinyapps.io/probation-pilot-app/" target="_blank" rel="noopener">network data collection tool</a>).</p>
-<p>These are all built using <a href="https://shiny.posit.co/" target="_blank" rel="noopener">Shiny</a>.</p>
+<p>Or, if you wanted to collect some data? (check out this <a href="https://jacobtnyoung.shinyapps.io/probation-pilot-app/" target="_blank" rel="noopener">network data collection tool</a>).</p>
+<p>Or, maybe the spatial distribution of crime in Phoenix? (check out this <a href="https://jacobtnyoung.shinyapps.io/crime-in-phx/" target="_blank" rel="noopener">Phoenix Crime Dashboard</a>).</p>
+<p>These are all built using <a href="https://shiny.posit.co/" target="_blank" rel="noopener">Shiny</a>!</p>
 <p><br></p>
 </section>
 <section id="what-is-shiny-and-how-it-works" class="level1">
 <h1>What is Shiny and How it Works</h1>
-<p>Shiny is an R framework for building interactive web applications directly from R code. It allows you to take static analyses and visualizations, like a <code>ggplot</code>, and turn them into dynamic, user-driven experiences that run in a web browser.</p>
+<p>Shiny is an R framework for building interactive web applications directly from R code. It allows you to take static analyses and visualizations, like a <code>ggplot</code>, and turn them into user-driven applications that run in a web browser.</p>
 <p>With Shiny, users can:</p>
 <ul>
 <li>Adjust inputs (sliders, dropdowns, buttons)</li>
@@ -2429,7 +2438,7 @@ window.Quarto = {
 <li><p>The Server, this is what happens behind the scenes. It is where we put the instructions for what is produced in the UI, where data is processed, and where calculations happen. The server connects user inputs to outputs.</p></li>
 <li><p>Reactivity is what makes Shiny dynamic (and powerful). Reactivity means that code reruns automatically when inputs change. Think of it like Excel cell recalculation: If one cell changes, any dependent cells update automatically. Shiny works the same way in that changes to the inputs trigger update which refresh the output.</p></li>
 </ul>
-<p>Let’s go back to the <a href="https://jacobtnyoung.shinyapps.io/sampling-distributions/" target="_blank" rel="noopener">visualization of sampling ditributions</a> app and take a closer look.</p>
+<p>Let’s go back to the <a href="https://jacobtnyoung.shinyapps.io/sampling-distributions/" target="_blank" rel="noopener">visualization of sampling ditributions</a> app and take a closer look. Now, take a closer look “under the hood” to see what it looks like <a href="https://github.com/jacobtnyoung/dynamic-viz/blob/main/apps/sampling/app.R" target="_blank" rel="noopener">here</a>.</p>
 </section>
 <section id="an-example" class="level2">
 <h2 class="anchored" data-anchor-id="an-example">An Example</h2>
@@ -2455,33 +2464,37 @@ window.Quarto = {
 <p>Let’s create a very simple Shiny app. As we do this, ask yourself: What is part of the UI? What is part of the server? Where is reactivity happening?</p>
 <p>To get started, create a new R script file and add this code to it:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>( shiny )</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>( ggplot2 )</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">&quot;Interactive Histogram&quot;</span>),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sliderInput</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;Sample size (n):&quot;</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">1000</span>, <span class="at">value =</span> <span class="dv">100</span>, <span class="at">step =</span> <span class="dv">10</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">&quot;hist&quot;</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>hist <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(input<span class="sc">$</span>n)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x), <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste</span>(<span class="st">&quot;Histogram of&quot;</span>, input<span class="sc">$</span>n, <span class="st">&quot;random normals&quot;</span>),</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="st">&quot;value&quot;</span>, <span class="at">y =</span> <span class="st">&quot;count&quot;</span>) <span class="sc">+</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>()</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># use these commands to install the packages</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages( &quot;shiny&quot; )</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages( &quot;ggplot2&quot; )</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>( shiny )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>( ggplot2 )</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">&quot;Interactive Histogram&quot;</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sliderInput</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;Sample size (n):&quot;</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">1000</span>, <span class="at">value =</span> <span class="dv">100</span>, <span class="at">step =</span> <span class="dv">10</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">&quot;hist&quot;</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>hist <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(input<span class="sc">$</span>n)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x), <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste</span>(<span class="st">&quot;Histogram of&quot;</span>, input<span class="sc">$</span>n, <span class="st">&quot;random normals&quot;</span>),</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="st">&quot;value&quot;</span>, <span class="at">y =</span> <span class="st">&quot;count&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>()</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Ok, you just created your first Shiny app! I knew you had it in you. Let’s walk through what we did.</p>
 <p>The first part loads the libraries to get the functions needed to build the app and the plot:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
@@ -2519,7 +2532,7 @@ window.Quarto = {
 <p>We define a <strong>function</strong> called <code>server</code> which is going to be our workhorse. It is going to take an <code>input</code> that the user can alter in the UI. Anytime a change is made by the user, this is going to pass through our server object and change what is rendered in <code>output</code>.</p>
 <p>Remember that we defined an object called <code>&quot;hist&quot;</code> in UI using <code>plotOutput()</code>. Here we are defining what that will be. Specifically, we use the <code>renderPlot()</code> function. This is getting a bit more complicated, so let’s take each line:</p>
 <ul>
-<li><code>x &lt;- rnorm(input$n)</code> creates an object <code>x</code>, which is a random draw from a normal distribution, <code>rnorm</code>, where the size is defined by the user with <code>input$n</code>. Look back to the UI, where do you see <code>&quot;n&quot;</code>? <strong>Look at what we just did</strong>: we built into our plot function the changes that are being made by the user in the UI.</li>
+<li><code>x &lt;- rnorm(input$n)</code> creates an object <code>x</code>, which is a random draw from a normal distribution, <code>rnorm</code>, where the size is defined by the user with <code>input$n</code>. Look back to the UI, where do you see <code>&quot;n&quot;</code>? <strong>Look at what we just did</strong>: we built into our plot function the changes that are being made by the user in the UI. This is called a <strong>reactive value</strong>.</li>
 <li><code>ggplot(data.frame(x = x), aes(x = x)) +</code>… defines a plot object, using <code>ggplot()</code>, that is based on the <code>x</code> object.</li>
 </ul>
 <p>And that is really it. Much of the code is tweaking the <code>ggplot</code> object.</p>
@@ -2531,6 +2544,7 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="functions">Functions</h4>
 <p>As you can see, there are a number of functions that we use to build the app. You can browse the functions that are build in <code>shiny</code> by typing <code>help( package = &quot;shiny&quot; )</code>. There are also many extensions that have been written:</p>
 <ul>
+<li><a href="https://shiny.posit.co/r/gallery/widgets/widget-gallery/" target="_blank" rel="noopener">shiny widget gallery</a></li>
 <li><a href="https://dreamrs.github.io/shinyWidgets/" target="_blank" rel="noopener">shinyWidgets</a></li>
 <li><a href="https://github.com/nanxstats/awesome-shiny-extensions" target="_blank" rel="noopener">awesome-shiny-extensions</a></li>
 </ul>
@@ -2541,17 +2555,127 @@ window.Quarto = {
 </section>
 <section id="using-ai-to-build-shiny-apps" class="level1">
 <h1>Using AI to Build Shiny Apps</h1>
+<p>Now that we understand how Shiny works (i.e. UI, server, and reactivity), we can start building more complex apps. This is where AI becomes a very useful tool. Instead of writing everything from scratch, we can use AI to help generate are basic idea, suggest improvements, and help debug issues.</p>
+<section id="bad-prompts-vs.-good-prompts" class="level2">
+<h2 class="anchored" data-anchor-id="bad-prompts-vs.-good-prompts">Bad Prompts vs. Good Prompts</h2>
+<p>Try this example prompt: “create a Shiny dashboard.” Now, let’s see what it produced and think about these questions:</p>
+<ul>
+<li>what is missing?</li>
+<li>why is it generic?</li>
+<li>what assumptions did it make?</li>
+</ul>
+<p>Now, try this prompt: “Create a Shiny app using the mtcars dataset with. It should include a dropdown to select a variable, a scatterplot of mpg vs selected variable, a summary table below the plot, a sidebar layout, and beginner-friendly code with comments”.</p>
+<p><em>How is this one different?</em></p>
+<section id="strong-prompt-structure" class="level3">
+<h3 class="anchored" data-anchor-id="strong-prompt-structure">Strong Prompt Structure</h3>
+<p>A good prompt gives the algorithm needed information for making decisions about what it generates. A strong prompt will:</p>
+<ul>
+<li>Identify a dataset or describe the data that needs to be created</li>
+<li>Inputs that the user can adjust (e.g., a slider)</li>
+<li>Outputs that are the consequence of user adjustments (e.g., a plot)</li>
+<li>Layout instructions</li>
+<li>Constraints such as “use this specific package” or “don’t use additional packages” or “add instructions”</li>
+</ul>
+<p>An example prompt template might look something like this: “Build a Shiny app in R using [dataset]. Include [inputs]. Display [outputs]. Use [layout type]. Write clean, commented, beginner-friendly code.”</p>
 </section>
-<section id="exercise" class="level1">
-<h1>Exercise</h1>
+</section>
+<section id="debugging" class="level2">
+<h2 class="anchored" data-anchor-id="debugging">Debugging</h2>
+<p>Another major strength of AI as a helper is that it is great at debugging code. To illustrate, let’s take a look through the following code chunk:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">&quot;Simple Scatterplot&quot;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;Choose a variable:&quot;</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">choices =</span> <span class="fu">names</span>(mtcars))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">&quot;scatterPlot&quot;</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>scatter <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    x_var <span class="ot">&lt;-</span> mtcars[[input<span class="sc">$</span>variable]]</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_var, <span class="at">y =</span> mtcars<span class="sc">$</span>mpg),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">color =</span> steelblue, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x =</span> input<span class="sc">$</span>variable,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> mpg)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Open an R script file and try seeing if you can find the errors.</p>
+<p><br></p>
+<p>Here is the debugged code:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">&quot;Simple Scatterplot&quot;</span>), <span class="co"># note that we were missing a comma</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(<span class="st">&quot;variable&quot;</span>, <span class="st">&quot;Choose a variable:&quot;</span>, <span class="co"># above, our Input ID is mismatched</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">choices =</span> <span class="fu">names</span>(mtcars),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">selected =</span> <span class="st">&quot;wt&quot;</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">plotOutput</span>(<span class="st">&quot;scatter&quot;</span>) <span class="co"># above, this output name was mismatched</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>scatter <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>({</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    x_var <span class="ot">&lt;-</span> mtcars[[input<span class="sc">$</span>variable]]</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_var, <span class="at">y =</span> mtcars<span class="sc">$</span>mpg),</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> <span class="co"># above we were missing &quot;&quot;s for this</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">x =</span> input<span class="sc">$</span>variable,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">&quot;mpg&quot;</span>) <span class="co"># same problem here with missing &quot;&quot;s</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now that we understand how to use AI, let’s build something ourselves and use AI as an assistant.</p>
+</section>
+<section id="exercise" class="level2">
+<h2 class="anchored" data-anchor-id="exercise">Exercise</h2>
+<p>Think about an app you would like to build. What would it show? What would it allow the user to do? What is the learning goal? Now, having conjured these thoughts, develop a prompt to generate a basic setup for your app.</p>
+<p><br></p>
+</section>
 </section>
 <section id="qa-and-extensions" class="level1">
 <h1>Q&amp;A and Extensions</h1>
-<p>Here are some really good FREE books:</p>
+<p>This is only scratching the surface. You can build very elaborate apps. For example, check out this app designed to teach about <a href="https://shiny.posit.co/r/gallery/education/didacting-modeling/" target="_blank" rel="noopener">linear regression</a>.</p>
+<p>If you are interested in reading up on it, here are some really good FREE books:</p>
 <ul>
 <li><a href="https://mastering-shiny.org/index.html" target="_blank" rel="noopener">Mastering Shiny</a> is the first stop for moving forward with learning how to use Shiny.</li>
+<li><a href="https://unleash-shiny.rinterface.com/" target="_blank" rel="noopener">Unleash Shiny</a> and <a href="https://engineering-shiny.org/index.html" target="_blank" rel="noopener">Engineering Shiny</a> are great next steps for creating awesome apps.</li>
 </ul>
-<p>(https://unleash-shiny.rinterface.com/){target=“_blank” rel=“noopener”} (https://engineering-shiny.org/index.html){target=“_blank” rel=“noopener”}</p>
+<p>There is also an annual conference, <a href="https://www.shinyconf.com/" target="_blank" rel="noopener">ShinyConf</a>, where developers discuss their work. There are also awards for best apps. Here is a gallery of the <a href="https://posit.co/blog/winners-of-the-2024-shiny-contest/" target="_blank" rel="noopener">2024 winners</a>.</p>
+<p><br></p>
+<p>John Tukey once said, “The greatest value of a picture is when it forces us to notice what we never expected to see.”</p>
 </section>
 
 </main>

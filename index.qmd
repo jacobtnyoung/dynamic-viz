@@ -25,9 +25,11 @@ library( ggplot2 )
 
 ```
 
+<br>
+
 Motivating question: In statistics, you learned that when we sample, we want large sample sizes. *Why?*
 
-If we drew $k = 2000$ random samples of size $n = 2$, $n = 10$, and $n = 50$, respectively, we would get three sampling distributions. We could then visualize each sampling distribution with a plot:
+Let's see this in practice. If we drew $k = 2000$ random samples of size $n = 2$, $n = 10$, and $n = 50$, respectively, we would get three sampling distributions. We could then visualize each sampling distribution with a plot:
 
 ```{r gplot-example}
 
@@ -71,15 +73,17 @@ The visualizations above are examples of static and dynamic visualizations, resp
 
 What if you were interested in identifying an optimal strategy for network disruption? (check out this [network disruption app](https://jacobtnyoung.shinyapps.io/network-disruption/){target="_blank" rel="noopener"}).
 
-Or, if you wanted to collection some data? (check out this [network data collection tool](https://jacobtnyoung.shinyapps.io/probation-pilot-app/){target="_blank" rel="noopener"}).
+Or, if you wanted to collect some data? (check out this [network data collection tool](https://jacobtnyoung.shinyapps.io/probation-pilot-app/){target="_blank" rel="noopener"}).
 
-These are all built using [Shiny](https://shiny.posit.co/){target="_blank" rel="noopener"}.
+Or, maybe the spatial distribution of crime in Phoenix? (check out this [Phoenix Crime Dashboard](https://jacobtnyoung.shinyapps.io/crime-in-phx/){target="_blank" rel="noopener"}).
+
+These are all built using [Shiny](https://shiny.posit.co/){target="_blank" rel="noopener"}!
 
 <br>
 
 # What is Shiny and How it Works
 
-Shiny is an R framework for building interactive web applications directly from R code. It allows you to take static analyses and visualizations, like a `ggplot`, and turn them into dynamic, user-driven experiences that run in a web browser. 
+Shiny is an R framework for building interactive web applications directly from R code. It allows you to take static analyses and visualizations, like a `ggplot`, and turn them into user-driven applications that run in a web browser. 
 
 With Shiny, users can:
 
@@ -98,7 +102,7 @@ Shiny apps are built around three simple ideas:
   
   - Reactivity is what makes Shiny dynamic (and powerful). Reactivity means that code reruns automatically when inputs change. Think of it like Excel cell recalculation: If one cell changes, any dependent cells update automatically. Shiny works the same way in that changes to the inputs trigger update which refresh the output.
 
-Let's go back to the [visualization of sampling ditributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"} app and take a closer look. 
+Let's go back to the [visualization of sampling ditributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"} app and take a closer look. Now, take a closer look "under the hood" to see what it looks like [here](https://github.com/jacobtnyoung/dynamic-viz/blob/main/apps/sampling/app.R){target="_blank" rel="noopener"}.
 
 ## An Example
 
@@ -131,6 +135,10 @@ Let's create a very simple Shiny app. As we do this, ask yourself: What is part 
 To get started, create a new R script file and add this code to it:
 
 ```r
+
+# use these commands to install the packages
+# install.packages( "shiny" )
+# install.packages( "ggplot2" )
 
 library( shiny )
 library( ggplot2 )
@@ -240,6 +248,7 @@ Here, we are just running the `shinyApp()` function and defining the arguments t
 
 As you can see, there are a number of functions that we use to build the app. You can browse the functions that are build in `shiny` by typing `help( package = "shiny" )`. There are also many extensions that have been written: 
 
+  - [shiny widget gallery](https://shiny.posit.co/r/gallery/widgets/widget-gallery/){target="_blank" rel="noopener"}
   - [shinyWidgets](https://dreamrs.github.io/shinyWidgets/){target="_blank" rel="noopener"}
   - [awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions){target="_blank" rel="noopener"}
 
@@ -365,30 +374,23 @@ shinyApp(ui, server)
 
 Now that we understand how to use AI, let's build something ourselves and use AI as an assistant.
 
+## Exercise
 
+Think about an app you would like to build. What would it show? What would it allow the user to do? What is the learning goal? Now, having conjured these thoughts, develop a prompt to generate a basic setup for your app.
 
-
-# Exercise
-
+<br>
 
 # Q&A and Extensions
 
-Here are some really good FREE books:
+This is only scratching the surface. You can build very elaborate apps. For example, check out this app designed to teach about [linear regression](https://shiny.posit.co/r/gallery/education/didacting-modeling/){target="_blank" rel="noopener"}.
+
+If you are interested in reading up on it, here are some really good FREE books:
 
   - [Mastering Shiny](https://mastering-shiny.org/index.html){target="_blank" rel="noopener"} is the first stop for moving forward with learning how to use Shiny.
+  - [Unleash Shiny](https://unleash-shiny.rinterface.com/){target="_blank" rel="noopener"} and [Engineering Shiny](https://engineering-shiny.org/index.html){target="_blank" rel="noopener"} are great next steps for creating awesome apps.
   
-  (https://unleash-shiny.rinterface.com/){target="_blank" rel="noopener"}
-  (https://engineering-shiny.org/index.html){target="_blank" rel="noopener"}
+There is also an annual conference, [ShinyConf](https://www.shinyconf.com/){target="_blank" rel="noopener"}, where developers discuss their work. There are also awards for best apps. Here is a gallery of the [2024 winners](https://posit.co/blog/winners-of-the-2024-shiny-contest/){target="_blank" rel="noopener"}.
 
+<br>
 
-
-
-
-
-
-
-
-
-
-
-
+John Tukey once said, “The greatest value of a picture is when it forces us to notice what we never expected to see.”
