@@ -221,7 +221,7 @@ We define a **function** called `server` which is going to be our workhorse. It 
 
 Remember that we defined an object called `"hist"` in UI using `plotOutput()`. Here we are defining what that will be. Specifically, we use the `renderPlot()` function. This is getting a bit more complicated, so let's take each line:
 
-  - `x <- rnorm(input$n)` creates an object `x`, which is a random draw from a normal distribution, `rnorm`, where the size is defined by the user with `input$n`. Look back to the UI, where do you see `"n"`? **Look at what we just did**: we built into our plot function the changes that are being made by the user in the UI.
+  - `x <- rnorm(input$n)` creates an object `x`, which is a random draw from a normal distribution, `rnorm`, where the size is defined by the user with `input$n`. Look back to the UI, where do you see `"n"`? **Look at what we just did**: we built into our plot function the changes that are being made by the user in the UI. This is called a **reactive value**. 
   - `ggplot(data.frame(x = x), aes(x = x)) +`... defines a plot object, using `ggplot()`, that is based on the `x` object.
 
 And that is really it. Much of the code is tweaking the `ggplot` object.
@@ -246,6 +246,126 @@ As you can see, there are a number of functions that we use to build the app. Yo
 <br>
 
 # Using AI to Build Shiny Apps
+
+Now that we understand how Shiny works (i.e. UI, server, and reactivity), we can start building more complex apps. This is where AI becomes a very useful tool. Instead of writing everything from scratch, we can use AI to help generate are basic idea, suggest improvements, and help debug issues.
+
+## Bad Prompts vs. Good Prompts
+
+Try this example prompt: "create a Shiny dashboard." Now, let's see what it produced and think about these questions: 
+
+  - what is missing?
+  - why is it generic?
+  - what assumptions did it make?
+
+Now, try this prompt: "Create a Shiny app using the mtcars dataset with. It should include a dropdown to select a variable, a scatterplot of mpg vs selected variable, a summary table below the plot, a sidebar layout, and beginner-friendly code with comments".
+
+*How is this one different?*
+
+### Strong Prompt Structure
+
+A good prompt gives the algorithm needed information for making decisions about what it generates. A strong prompt will: 
+
+  - Identify a dataset or describe the data that needs to be created
+  - Inputs that the user can adjust (e.g., a slider)
+  - Outputs that are the consequence of user adjustments (e.g., a plot)
+  - Layout instructions
+  - Constraints such as "use this specific package" or "don't use additional packages" or "add instructions"
+
+An example prompt template might look something like this: "Build a Shiny app in R using [dataset]. Include [inputs]. Display [outputs]. Use [layout type]. Write clean, commented, beginner-friendly code."
+
+## Debugging
+
+Another major strength of AI as a helper is that it is great at debugging code. To illustrate, let's take a look through the following code chunk:
+
+```r
+
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("Simple Scatterplot")
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("var", "Choose a variable:",
+                  choices = names(mtcars))
+    ),
+    mainPanel(
+      plotOutput("scatterPlot")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+
+  output$scatter <- renderPlot({
+
+    x_var <- mtcars[[input$variable]]
+
+    ggplot(data.frame(x = x_var, y = mtcars$mpg),
+           aes(x = x, y = y)) +
+      geom_point(color = steelblue, size = 3) +
+      theme_minimal() +
+      labs(x = input$variable,
+           y = mpg)
+
+  })
+
+}
+
+shinyApp(ui = ui, server = server)
+
+```
+
+Open an R script file and try seeing if you can find the errors.
+
+<br>
+
+Here is the debugged code:
+
+```r
+
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("Simple Scatterplot"), # note that we were missing a comma
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("variable", "Choose a variable:", # above, our Input ID is mismatched
+                  choices = names(mtcars),
+                  selected = "wt")
+    ),
+    mainPanel(
+      plotOutput("scatter") # above, this output name was mismatched
+    )
+  )
+)
+
+server <- function(input, output, session) {
+
+  output$scatter <- renderPlot({
+
+    x_var <- mtcars[[input$variable]]
+
+    ggplot(data.frame(x = x_var, y = mtcars$mpg),
+           aes(x = x, y = y)) +
+      geom_point(color = "steelblue", size = 3) + # above we were missing ""s for this
+      theme_minimal() +
+      labs(x = input$variable,
+           y = "mpg") # same problem here with missing ""s
+
+  })
+
+}
+
+shinyApp(ui, server)
+
+
+```
+
+Now that we understand how to use AI, let's build something ourselves and use AI as an assistant.
+
+
 
 
 # Exercise
