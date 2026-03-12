@@ -71,11 +71,12 @@ The visualizations above are examples of static and dynamic visualizations, resp
 
 ## Other examples...
 
-What if you were interested in identifying an optimal strategy for network disruption? (check out this [network disruption app](https://jacobtnyoung.shinyapps.io/network-disruption/){target="_blank" rel="noopener"}).
+What if you were interested in:  
 
-Or, if you wanted to collect some data? (check out this [network data collection tool](https://jacobtnyoung.shinyapps.io/probation-pilot-app/){target="_blank" rel="noopener"}).
-
-Or, maybe the spatial distribution of crime in Phoenix? (check out this [Phoenix Crime Dashboard](https://jacobtnyoung.shinyapps.io/crime-in-phx/){target="_blank" rel="noopener"}).
+  - identifying an optimal strategy for network disruption (check out this [network disruption app](https://jacobtnyoung.shinyapps.io/network-disruption/){target="_blank" rel="noopener"}) 
+  - trends in faculty pay (check out this [ASU CCJ faculty salary dashboard](https://jacobtnyoung.shinyapps.io/sccj-faculty-salary-dashboard/){target="_blank" rel="noopener"}) 
+  - collecting network data (check out this [network data collection tool](https://jacobtnyoung.shinyapps.io/probation-pilot-app/){target="_blank" rel="noopener"}) 
+  - the spatial distribution of crime in Phoenix (check out this [Phoenix Crime Dashboard](https://jacobtnyoung.shinyapps.io/crime-in-phx/){target="_blank" rel="noopener"})
 
 These are all built using [Shiny](https://shiny.posit.co/){target="_blank" rel="noopener"}!
 
