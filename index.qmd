@@ -3,7 +3,7 @@ title: "Dynamic Visualization using Shiny"
 
 format:
   html:
-    theme: flatly
+    theme: lux
     toc: true
     toc-location: left
     toc-depth: 3
@@ -54,8 +54,7 @@ ggplot(
   labs( 
     title = "", 
     x = "Sample mean", y = "" ) +
-  theme_minimal() +
-  theme( legend.position = "none" )
+  theme_minimal() 
 
 ```
 
