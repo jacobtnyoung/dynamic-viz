@@ -23,8 +23,8 @@ library( leaflet.extras ) # for the heatmap
 
 # ----
 # define the objects
-crimeData       <- readRDS( here( "apps/crime-in-phx/crime_dat.rds" ) )
-
+#crimeData       <- readRDS( here( "apps/crime-in-phx/crime_dat.rds" ) )
+crimeData       <- readRDS( "crime_dat.rds" )
 
 
 # ----
