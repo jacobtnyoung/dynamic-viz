@@ -60,7 +60,7 @@ ggplot(
 
 Take a look at each plot. What is the visualization showing you? By displaying this information visually, what do you learn?
 
-Now, take a look at a different way of using a visualization to convey this point: [visualization of sampling ditributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"}.
+Now, take a look at a different way of using a visualization to convey this point: [visualization of sampling distributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"}.
 
 <br>
 
@@ -102,7 +102,7 @@ Shiny apps are built around three simple ideas:
   
   - Reactivity is what makes Shiny dynamic (and powerful). Reactivity means that code reruns automatically when inputs change. Think of it like Excel cell recalculation: If one cell changes, any dependent cells update automatically. Shiny works the same way in that changes to the inputs trigger update which refresh the output.
 
-Let's go back to the [visualization of sampling ditributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"} app and take a closer look. Now, take a closer look "under the hood" to see what it looks like [here](https://github.com/jacobtnyoung/dynamic-viz/blob/main/apps/sampling/app.R){target="_blank" rel="noopener"}.
+Let's go back to the [visualization of sampling distributions](https://jacobtnyoung.shinyapps.io/sampling-distributions/){target="_blank" rel="noopener"} app and take a closer look. Now, take a closer look "under the hood" to see what it looks like [here](https://github.com/jacobtnyoung/dynamic-viz/blob/main/apps/sampling/app.R){target="_blank" rel="noopener"}.
 
 ## An Example
 
