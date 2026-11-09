@@ -11,14 +11,8 @@
 # load libraries
 library( shiny )          # for shiny functions
 library( dplyr )          # used for wrangling the data
-library( tidyr )          # used for wrangling the data
-library( ggplot2 )        # for plotting
-library( here )           # for referencing the local directory
-library( sf )             # spatial objects
-library( tigris )         # to get geographic boundaries
 library( leaflet )        # for producing the leaflet plot
 library( leaflet.extras ) # for the heatmap
-
 
 
 # ----
@@ -116,7 +110,7 @@ server <- function(input, output, session) {
   # render base map once
   output$map <- renderLeaflet({
     leaflet() %>%
-      addProviderTiles("CartoDB.Positron") %>%
+      addTiles() %>%
       setView(lng = -112.0740, lat = 33.4484, zoom = 12)
   })
   

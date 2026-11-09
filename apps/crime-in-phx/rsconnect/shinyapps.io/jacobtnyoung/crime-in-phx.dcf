@@ -5,7 +5,7 @@ account: jacobtnyoung
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 16943240
-bundleId: 11733788
+bundleId: 12798815
 url: https://jacobtnyoung.shinyapps.io/crime-in-phx/
 version: 1
 asMultiple: FALSE
